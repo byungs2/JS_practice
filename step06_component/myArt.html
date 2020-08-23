@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <template id="templateBasic">
+        <li>
+            hello : {{data}}<br>
+        </li>
+    </template>
+
+    <div id="app">
+        주문자 이름 : <input type="text" v-model="list2.name"> <br>
+        주문자 주소 : <input type="text" v-model="list2.addr"> <br>
+
+        <button v-on:click="submit">주문하기</button><br>
+
+        <compo v-bind:data="list">
+
+        </compo>
+    </div>
+
+    
+
+    <script>
+        Vue.component("compo", {
+            template: "#templateBasic",
+            props: ['data'],
+        });
+        new Vue({
+            el: "#app",
+            data: {
+                list2: {
+                    name: "",
+                    addr: ""
+                },
+                list: "",
+            },
+            methods: {
+                submit: function () {
+                    let self = this;
+                    axios.get('http://localhost/step04_cart/res.jsp', {
+                        params: {
+                            name: this.list2.name,
+                            addr: this.list2.addr,
+                            }
+                        })
+                        .then(function (response) {
+                            self.list = response.data;
+                            console.log(response.data);
+                            console.log(typeof (this.list));
+                            console.log(this.list);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    alert('주문서 제출 완료');
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

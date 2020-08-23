@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>step03_parentToChild</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id = "app">
+        <child-com v-bind:parent_data_receive = "supermessage">
+
+        </child-com>
+    </div>
+
+    <script>
+        //자식 컴포넌트
+        Vue.component('child-com',{
+            template : '<p>{{parent_data_receive}}</p>',
+            props: ['parent_data_receive'],
+        });
+
+        //부모 컴포넌트
+        new Vue({
+            el : "#app",
+            data : {
+                supermessage : "부모 제공 자식이 받는 데이터"
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        #list {
+            width: 600px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        #list td,
+        th {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        #list>thead>tr {
+            color: yellow;
+            background-color: purple;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>component review</h3>
+    <br><hr><br>
+    
+    보이는 이미지 처럼 동일한 결과가 출력되게 완성하기 <br>
+    <img src="images/step02Q.png"> <br>
+
+
+    <br><hr><br>
+
+    <template id = "listTemplate">
+        <div>
+            <table id="list">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>이름</th>
+                        <th>전화번호</th>
+                        <th>주소</th>
+                    </tr>
+                </thead>
+                <tbody id="contacts">
+                    <tr v-for = "(value) in contacts">
+                       <td>{{value.no}}</td>
+                       <td>{{value.name}}</td>
+                       <td>{{value.tel}}</td>
+                       <td>{{value.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <div id="app">
+        <h3>예방 접종</h3>
+        <hr>
+        <h3>1차 대상자 : 5월 1~3일</h3>
+        <contactlist-component v-bind:contacts="list1"></contactlist-component>
+
+        <h3>2차 대상자 : 5월 13~15일</h3>
+        <contactlist-component v-bind:contacts="list2"></contactlist-component>
+    </div>
+
+    <script>
+        let list = {
+                list1: [
+                    { "no": 97, "name": "유재석", "tel": "010-3456-8296", "address": "서울시" },
+                    { "no": 96, "name": "신동엽", "tel": "010-3456-8295", "address": "서울시" },
+                    { "no": 95, "name": "이승기", "tel": "010-3456-8294", "address": "서울시" }
+                ],
+                list2: [
+                    { "no": 82, "name": "김혜수", "tel": "010-3456-8281", "address": "서울시" },
+                    { "no": 81, "name": "전지현", "tel": "010-3456-8280", "address": "서울시" }
+                ]
+        }
+        Vue.component('contactlist-component', {
+            template: '#listTemplate',
+            props: ['contacts']
+        });
+
+        var vm = new Vue({
+            el: "#app",
+            data: list
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <h3>하위에서 상위로 이벤트 전달하기</h3>
+    <hr><br><hr>
+
+    <div id = "app">
+        <child-com @myevent = "viewData"></child-com>
+        <div v-if = "view">
+            버튼 클릭 시에만 보이는 데이터 {{message}}
+        </div>
+    </div>
+
+    <script>
+        
+        Vue.component('child-com',{
+            template : '<button v-on:click="showLog">데이터 보기</button>',
+            methods: {
+                showLog: function(){
+                    //부모에게 이벤트 발생 시키는 로직 구현
+                    this.$emit("myevent",'playdata');
+                }
+            },
+        });
+        
+        new Vue({
+            el : "#app",
+            data : {
+                //이벤트 - 자식 tag인 버튼 클릭 동작
+                message : "하위에서 발생된 이벤트로 사용되어지는 데이터",
+                view : false
+            },
+            methods : {
+                viewData: function(v){ //자식이 버튼 클릭했을 때 호출
+                    console.log(v);
+                    this.view = !this.view;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

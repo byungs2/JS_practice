@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <h3>step01. Component 종류 및 문법</h3>
+    <br>
+    1. 사용자 정의 tag 구성과 같은 맥락 
+    <br>
+    <div id = app1>
+        <btn-com></btn-com>
+        <g-com></g-com>
+        <l-com></l-com>
+    </div>
+    
+    <hr><br><hr>
+    <h3>step02사용자 정의 정적 버튼</h3>
+    <!--사용자 정의 tag의 모양(컴포넌트)-->
+    
+    <div id = app2>
+        <btn-com></btn-com>
+        <g-com></g-com>
+        <l-com></l-com>
+    </div>
+    <template id = "template_btn">
+        <button>정적데이터</button>
+    </template>
+
+    <hr><br><hr>
+    <h3>step03사용자 정의 동적 버튼</h3>
+    
+    <div id = app3>
+        <btn2-com message="what"></btn2-com>
+        <btn2-com message="a"></btn2-com>
+        <btn2-com message="lovely"></btn2-com>
+        <btn2-com message="day"></btn2-com>
+    </div>
+    <template id = "template_btn_act">
+        <button>동적데이터{{message}}</button>
+    </template>
+    <script>
+        //전역 컴포넌트 개발 문법 - html상에 생성되는 모든 vue instance가 사용 가능한 컴포넌트
+        Vue.component('btn-com',{
+            template : "#template_btn"
+        });
+        Vue.component('btn2-com',{
+            template : "#template_btn_act",
+            props: ['message']
+        });
+        Vue.component('g-com',{
+            template : '<div>전역 컴포넌트</div>'
+        });
+        let app1 = new Vue({
+            el : "#app1",
+            components : { //Vue instance 내에 선언된 로컬 컴포넌트
+                'l-com' : {
+                    template : '<div>지역 컴포넌트</div>'
+                }
+            }
+        });
+        let app2 = new Vue({
+            el : "#app2",
+        });
+        let app3 = new Vue({
+            el : "#app3",
+        });
+    </script>
+</body>
+</html>
