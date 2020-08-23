@@ -1,0 +1,70 @@
+<script>
+	/* eslint-disable no-unused-vars */
+	/* eslint-disable no-undef */
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/index.css" type="text/css">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body >
+<h1 style="color:white;" align = "center">WordBook</h1>
+<h3 style="color:white;" align = "center">병헌 재식 준수</h3>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+	<p><a href="controller?command=getall" class="mybutton1">모든 단어 보기</a></p>
+	
+	 <form name="insertForm" action="controller">
+		<input type="hidden" name="command" value="insert">
+		<input type="text" placeholder="영어를 입력하세요." name="en">
+		<input type="text" placeholder="한글를 입력하세요." name="kor">
+		<input type="submit" class="myButton" value="+">
+	</form> 
+	<br>
+	
+	
+	<div class="box">
+  	<div class="container-1">
+      <span class="icon"><i class="fa fa-search"></i></span>
+      <input type="search" id="search" placeholder="Search..." />
+  	</div>
+		<div class="list" id = "search_box"></div>
+	</div>
+
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+	let input = document.getElementById("search");
+	input.addEventListener("keyup",function(){
+		if (input.value.length != 0) 
+			req();
+	});
+	function req(){
+		axios.get('controller', {
+				params: {
+					command: "search",
+					data: document.getElementById("search").value
+				}
+			})
+			.then(response => {
+				document.getElementById("search_box").innerHTML = response.data;
+			})
+			.catch(function (error) {
+			});
+	}
+	
+	function searchToNaver(word){		
+		window.open("https://en.dict.naver.com/#/search?range=all&query="+word);
+
+	}
+
+	</script>
+	
+</body>
+</html>

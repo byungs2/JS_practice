@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <h3>반복 지시자 및 속성</h3>
+    1. 데이터,property명, property순번 in JS 객체
+    2. 배열요소,배열의 index in 배열 객체
+    <div id = "app">
+        <dl>
+            <dt>1. JS Object DATA</dt>
+            <dd>
+                <li v-for="(value, key, index) in alias">
+                    {{value}}<br>
+                    {{key}}<br>
+                    {{index}}
+                </li>
+              <!--  <li v-for="i in data">
+                    <li v-for="j in i">
+                        {{j}}
+                    </li>
+                </li>       
+                    -->
+                    <!--배열 객체 데이터는 index 불필요?-->
+                    <li v-for="(value, key) in favorite">
+                        {{value}}<br>
+                        {{key}}<br>
+                    </li>
+                    <!--배열 객체 데이터 중 key값을 2로 나누고 난 나머지 값이 0인 경우에만 hr태그 반영-->
+                    <template v-for="(value, key) in coffees">
+                        <hr v-if="key%2 == 0">{{value}}<br>
+                        {{key}}<br>
+                    </template>
+                    
+                   <li v-for="value in coffees" v-if="value == '라떼'">
+                    {{value}}<br>
+                    </li>
+                    
+            </dd> <!--&nbsp; 들여쓰기-->
+        </dl>
+    </div>
+    <script>
+        let model = {
+            favorite : ["공부", "영화보기", "빈둥거리기", "몽상하기"],
+            coffees : ["아메리카노", "라떼", "돌체라떼", "모카"],
+            alias : {
+                name : "LBH",
+                nickname : "육식의 대가",
+            }
+        }
+        let f1 = new Vue({
+            el : "#app",
+            data : model
+        });
+    </script>
+</body>
+</html>

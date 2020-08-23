@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--view-->
+    <div id = "app">
+        {{one}}<br>
+        {{two}}
+    </div>
+    <script>
+        //model
+        let hobbys ={"one" : "Sling Shot", "two" : "Guitar"};
+        
+        //ViewModel
+        /*
+        html 문서상 어떠한 영역을 view로 설정할 것인가(Scope)
+        view에게 어떠한 데이터를 출력할 것인지, Model 설정
+        */
+        let vm = new Vue({
+            el : "#app",
+            data : hobbys,
+
+        });
+    </script>
+    <br><hr><br>
+        <!--view-->
+        <div id = "app2">
+            {{one}}<br>
+            {{two}}<br>
+            {{playdata()}}<br>
+            {{playdata2("MIU")}}<br>
+            {{a}}<br>
+        </div>
+        <script>
+            //model
+            let hobbys2 ={"one" : "Sling Shot", "two" : "Guitar"};
+            
+            //ViewModel
+            /*
+            html 문서상 어떠한 영역을 view로 설정할 것인가(Scope)
+            view에게 어떠한 데이터를 출력할 것인지, Model 설정
+            */
+            let vm2 = new Vue({
+                el : "#app2",
+                data : hobbys2,
+                methods: {
+                  playdata : function(){
+                      return this.one + "LBH";
+                  },
+                  playdata2 : function(v){
+                      return v + "LBH";
+                  },
+                },
+                computed: {
+                    a : function(){
+                        return "자동 연산 시 사용 권장"
+                    }
+                },
+            });
+        </script>
+    <br><hr><br>
+
+    <!--view-->
+    <div id = "app3">
+        <!--
+            input tag에 입력하는 데이터를 브라우저에 단순 출력
+            수정 시 실시간으로 자동 변경되면서 출력
+        -->
+        <input type = "text" v-model ="message"><br>
+        {{message}}
+    </div>
+    <script>
+        //model
+        
+        //ViewModel
+        /*
+        html 문서상 어떠한 영역을 view로 설정할 것인가(Scope)
+        view에게 어떠한 데이터를 출력할 것인지, Model 설정
+        */
+        let vm3 = new Vue({
+            el : "#app3",
+            data : {message : ""},
+
+        });
+    </script>
+</body>
+</html>

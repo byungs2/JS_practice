@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <title>Event Bus를 활용한 실전 예제</title>
+    <link rel="stylesheet" href="step06_review.css">
+</head>
+<body>
+    <h3>컴포넌트화 하면서 이벤트 버스를 사용하여 정보 교환</h3>
+    
+    <br>
+    <hr><br>
+    
+    <div id="todolistapp">
+        <div id="header" class="header">
+            <h2>Todo List App</h2>
+            <router-view name = "inputPart"></router-view> <!--Named Router를 이용하여 출력-->
+        </div>
+        <router-view name = "listPart"></router-view> <!--Named Router를 이용하여 출력-->
+    </div>
+
+    <!--template의 위치는 중요하지 않다 Vue객체 생성 시점이 중요할 뿐이다-->
+    <template id="input-template">
+        <div>
+            <input class="input" type="text" id="task" placeholder="입력 후 엔터!" v-model.trim="todo" v-on:keyup.enter="addTodo">
+            <span class="addbutton" v-on:click="addTodo">추 가</span>
+        </div>
+    </template>
+    <template id="list-template">
+        <ul id="todolist">
+            <li v-for="task in todolist" v-bind:class="checked(task.done)" v-on:click="doneToggle(task.id)">
+                <span>{{ task.todo }}</span>
+                <span v-if="task.done"> (완료)</span>
+                <span class="close" v-on:click.stop="deleteTodo(task.id)">&#x00D7;</span>
+    
+            </li>
+        </ul>
+    </template>
+    
+</body>
+
+
+<script type="text/javascript">
+    let inputCom = Vue.component('input-component', {
+        template: '#input-template',
+        data: function () {
+            return { todo: "" }
+        },
+        methods: {
+            addTodo: function () {
+                eventBus.$emit('add-todo', this.todo);
+                this.todo = "";
+            }
+        }
+    });
+    let listCom = Vue.component('list-component', {
+        template: '#list-template',
+        created: function () {
+            console.log("created");
+            eventBus.$on('add-todo', this.addTodo);
+        },
+        data: function () {
+            return {
+                todolist: [
+                    { id: 1, todo: "영화보기", done: false },
+                    { id: 2, todo: "주말 산책", done: false },
+                    { id: 3, todo: "ES6 학습", done: false },
+                    { id: 4, todo: "잠실 야구장", done: false },
+                ]
+            }
+        },
+        methods: {
+            checked: function (done) {
+                if (done) {
+                    return { checked: true };
+                } else {
+                    return { checked: false };
+                }
+            },
+            addTodo: function (todo) {
+                if (todo !== "") {
+                    this.todolist.push({
+                        id: new Date().getTime(),
+                        todo: todo,
+                        done: false
+                    });
+                }
+            },
+            doneToggle: function (id) {
+                var index = this.todolist.findIndex(function (item) {
+                    return item.id === id;
+                });
+                this.todolist[index].done = !this.todolist[index].done;
+            },
+            deleteTodo: function (id) {
+                var index = this.todolist.findIndex(function (item) {
+                    return item.id === id;
+                });
+                this.todolist.splice(index, 1);
+            }
+        }
+    });
+    let routes = [
+        {
+            path : "/", components : {
+                inputPart : inputCom,
+                listPart : listCom,
+            }
+        }
+    ];
+    const router = new VueRouter({
+        routes
+    });
+var eventBus = new Vue();
+
+//Vue 객체 생성 시점을 JS 최하단에 위치시키지 않으면 렌더링과 호출 사이의 간격으로 원치않은 오류가 나올 수 있다.
+//$mount가 더 예쁘게 생긴 것 같다
+var vm = new Vue({
+    router
+}).$mount("#todolistapp");
+</script>
+
+
+
+
+</html>

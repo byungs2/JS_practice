@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .fa {
+          font-size: 500px;
+          cursor: pointer;
+          user-select: none;
+        }
+        .fa:hover {
+          color: rgb(62, 116, 187);
+        }
+        </style>
+</head>
+<body>
+    <div id = "myArt">
+        <i v-on:click ="myFunction()" class="fa fa-thumbs-up" id = "fam"></i>
+    </div>
+
+    <script>
+        let youtube = {
+            link : {
+                to : "https://www.youtube.com/watch?v=fVEOT5PJHH4",
+            }
+        }
+        let mtArt = new Vue({
+            el : "#myArt",
+            data : youtube,
+            methods : {myFunction : function(){
+                 document.getElementById("fam").classList.toggle("fa-thumbs-down");
+                 window.open(this.link.to, "_blank");
+                 
+                }
+            }
+        });
+    </script>
+    
+
+</body>
+</html>

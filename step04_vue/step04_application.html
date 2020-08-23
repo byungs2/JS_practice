@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    미션
+    1. 숫자 입력하면 원단위로 표현(ex : input : 2000 -> 2,000 won)
+    2. 입력 포멧이 "이름 나이" 일때 이름,나이 따로 화면에 출력
+    3. 이미지 2~3개 + 라디오 버튼 선택시 이미지가 가변적으로 변경되어 보이도록 하자
+    <div id = "app">
+        <input type = "number" v-model = "won"><br>
+        {{money | dot}}<br>
+        <input type = "text" v-model ="name_age"><br>
+        이름 : {{name_age | name}}<br>
+        나이 : {{name_age | age}}<br>
+        <input type="radio" name = "smile" v-on:click="image1"><br>
+        <input type="radio" name = "smile" v-on:click="image2"><br>
+        <input type="radio" name = "smile" v-on:click="image3"><br>
+        <i id = "img1"></i>
+        
+    </div>
+    <script>
+        let app = new Vue({
+            el : "#app",
+            data : {
+                money : "",
+                won : "",
+                name_age : "",
+                pic1 : '<img src="지방이.png" alt="pic1">',
+                pic2 : '<img src="지방이2.png" alt="pic2">',
+                pic3 : '<img src="지방이3.png" alt="pic3">',
+            },
+            watch: {
+                won : function(v){
+                    this.money = v+"원"
+                    if(v.length == 0){
+                        this.money = "";
+                    }
+                }
+            },
+            filters: {
+                dot : function(v){
+                    return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    //toLocalString();
+                },
+                name : function(v){
+                    console.log(v.split(" "));
+                    return v.split(" ")[0];
+                },
+                age : function(v){
+                    console.log(v.split(" "));
+                    return v.split(" ")[1];
+                }
+            },
+            methods: {
+                image1 : function(){
+                    document.getElementById("img1").innerHTML = this.pic1;
+                },
+                image2 : function(){
+                    document.getElementById("img1").innerHTML = this.pic2;
+                },
+                image3 : function(){
+                    document.getElementById("img1").innerHTML = this.pic3;
+                },
+            },
+        });
+    </script>
+</body>
+</html>

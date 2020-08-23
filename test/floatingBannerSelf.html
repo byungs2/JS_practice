@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <title>Document</title>
+ 
+</head>
+<body>
+    <style>
+        #float{
+            position: absolute;
+	        left: 50px;
+	        top: 10px;
+        }
+    </style>
+    <div style="height: 5000px;">
+        <div id = "float">
+            <router-view name = "floatPart"></router-view>
+        </div>
+    </div>
+    <template id = "floatTemp">
+        <div id = "follower">
+            <input type = "text">
+        </div>
+    </template>
+    <script>
+        $(document).ready(function(){
+                    let floatPosition = parseInt($("#float").css("top"));
+                    $(window).scroll(function(){
+                        let scrollTop =  $(window).scrollTop();
+                        let newPosition = scrollTop + floatPosition + "px";
+                        $("#float").css("top", newPosition);
+                        $("#float").stop().animate({
+                            top : newPosition,
+                        },500, "linear");
+                    }).scroll();
+                })
+        let eventBus = new Vue();
+        let floatComp = Vue.component("floating-comp", {
+            template : "#floatTemp",
+            methods: {
+                
+            },
+        })
+        let routes = [{
+            path : "/", components : {floatPart : floatComp}
+        }];
+        const router = new VueRouter({
+            routes
+        })
+        new Vue({
+            router,
+            methods: {
+            },
+        }).$mount("#float");
+    </script>
+</body>
+</html>

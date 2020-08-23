@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue.js 이모티콘샵</title>
+
+  <link rel="stylesheet" type="text/css" href="assets/css/app.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+
+  <dl>
+    <dd>
+      <h3>학습 된 내용을 기반으로 함께 완성하기</h3>
+    </dd>
+    <dd>UI는 bootstrap을 이용했으나 Vue 처리 로직에만 집중하기</dd>
+
+
+  </dl>
+  <br>
+  <hr><br>
+
+  <!-- View -->
+  <div id="app">
+
+    <header>
+      <div class="navbar navbar-default">
+        <div class="navbar-header">
+
+          <!--? Vue.js Shop 문구가 출력되게 하려면? -->
+          <h1>{{sitename}}</h1>
+        </div>
+
+        <!-- 장바구니 버튼 -->
+        <div class="nav navbar-nav navbar-right cart">
+
+          <button type="button" class="btn btn-default btn-lg" v-on:click="showCheckout">
+
+            <!-- 
+              1. 장바구니 모양의 이모티콘 
+              2. "장바구니 담기" 버튼 클릭하면 1씩 증가
+              ? 
+              3. {{}} 내부에 어떤 데이터를 출력할 것인가?
+            -->
+            <span class="glyphicon glyphicon-shopping-cart">
+              {{cartItemCount}}
+            </span> 장바구니
+
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="row">
+
+        <!-- 
+          1. showProduct - true인 경우 Vue.js 메인 화면 실행 
+          2. showProduct - false인 경우 "이모티콘샵 장바구니" 화면 실행 
+        -->
+        <div id="dataView"></div>
+        <div v-if="showProduct">
+          <div class="col-md-2 col-md-offset-1">
+            <img v-bind:src="product.image">
+          </div>
+          
+          <div class="col-md-6 col-md-offset-3 description">
+            <h1 v-text="product.title"></h1> <!-- ? apeach 음식, 25000원 -->
+            <p v-html="product.description"></p>
+            <!--? apeach를 위한 유기농 식품입니다. -->
+            <p class="price">
+              <!-- ? 금액 적용시 원화 표시로 filtering 하기 -->
+              {{product.price | formatPrice}}
+            </p>
+
+            <!-- 5개 이상 장바구니 담기를 하려 하면 버튼이 비활성화 : disabled="true"
+              장바구니 담기 버튼 클릭시 제품 id값이 장바구니 배열에 저장
+            -->
+            <button class="btn btn-primary btn-lg" v-on:click="addToCart" v-if="canAddToCart">장바구니 담기</button>
+            <button disabled="true" class="btn btn-primary btn-lg" v-else>장바구니 담기</button>
+          </div>
+        </div>
+
+        <!-- 장바구니 버튼 클릭시 실행되는 화면 -->
+        <div v-else>
+          <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-info">
+              <div class="panel-heading">이모티콘샵 장바구니</div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <h4><strong>정보를 입력하세요</strong></h4>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-md-6">
+                    <strong>이름:</strong>
+                    <input v-model.trim="order.name" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-md-12"><strong>주소:</strong></div>
+                  <div class="col-md-12">
+                    <input v-model.trim="order.address" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-md-2">
+                    <strong>지역:</strong>
+                    <select v-model="order.state" class="form-control">
+                      <option disabled value="">도시</option>
+
+                      <!-- ? value값을 state 값으로 적용해보기  
+                       v-bind:value="state"?
+                      -->
+                      <option v-for="(state, key) in states" v-bind:value="state">
+                        {{key}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-md-6 col-md-offset-4">
+                    <strong>우편번호:</strong>
+                    <input type="number" v-model.number="order.zip" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-md-6 boxes">
+                    <!-- 체크하면 order.sendGift 데이터-->
+                    <input type="checkbox" id="gift" v-bind:true-value="order.sendGift"
+                      v-bind:false-value="order.dontSendGift" v-model="order.gift">
+                    <label for="checkbox">선물 보내기</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-md-6 boxes">
+                    <input type="radio" id="home" v-bind:value="order.home" v-model="order.method">
+                    <label for="home">자택</label>
+                    <input type="radio" id="business" v-bind:value="order.business" v-model="order.method">
+                    <label for="business">직장</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-md-6">
+                    <button class="btn btn-primary submit" v-on:click="submitForm">주문하기</button>
+                  </div>
+                </div>
+
+                <div class="col-md-12 verify">
+                  <!-- 
+                    <pre> 요소 내의 텍스트는 시스템에서 미리 지정된 고정폭 글꼴(fixed-width font)을 사용하여 표현
+                    텍스트에 사용된 여백과 줄바꿈이 모두 그대로 브라우저 화면에 나타남 
+                  -->
+                  <pre>
+                    이름: {{order.name}}
+                    주소: {{order.address}}
+                    우편번호: {{order.zip}}
+                    지역: {{order.state}}
+                    배송지: {{order.method}}
+                    선물: {{order.gift}}
+                  </pre>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  
+
+  <script type="text/javascript">
+    let webstore = new Vue({
+      el: '#app',
+      data: {
+        sitename: "Vue.js Shop",
+        showProduct: true,  //true인 경우 "이모티콘샵 장바구니" 보기
+        states: {
+          서울: '서울',
+          부산: '부산',
+          강원도: '강원도',
+          전라도: '전라도',
+          제주도: '제주도'
+        },
+        order: {
+          name: '',
+          address: '',
+          zip: '',
+          state: '',
+          method: '자택 주소',
+          business: '직장 주소',
+          home: '자택 주소',
+          gift: '선물로 보내기',
+          sendGift: '선물로 보내기',
+          dontSendGift: '선물로 보내기 않기'
+        },
+        product: {
+          id: 1001,
+          title: "apeach 음식, 25000원",
+          description: "apeach를 위한 유기농 식품입니다.",
+          price: 2000,
+          image: "images/apeach.png",
+          availableInventory: 5
+        },
+        cart: []
+      },
+      methods: {
+        addToCart: function () {
+          this.cart.push(this.product.id);
+        },
+        showCheckout() {  // main화면? 이모티콘 장바구니 화면?
+          this.showProduct = this.showProduct ? false : true;
+        },
+        submitForm() {
+          axios.post('http://localhost/step04_cart/res.jsp', {
+            params: {
+              name: "한글",
+            }
+          })
+            .then(function (response) {
+              document.getElementById("dataView").textContent = response.data;
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+            alert('주문서 제출 완료');
+        }
+      },
+      computed: {
+        cartItemCount() {
+          return this.cart.length || '';
+        },
+        canAddToCart() {
+          return this.product.availableInventory > this.cartItemCount;
+        }
+      },
+      filters: {
+        formatPrice(price) {
+          return price.toLocaleString() + "원";
+        },
+      },
+    });
+  </script>
+</body>
+
+</html>

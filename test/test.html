@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="test">
+        <input type="text"><br>
+        <button type="button" v-on:click="eventhandler">Test Button</button>
+            <router-view name ="firstPart"></router-view>
+    </div>
+    
+
+    <template id = "firstTemp">
+        <div v-if="hide">
+            <button>MeaningLess Button</button>
+        </div>
+    </template>
+
+    <script>
+        let firstComp = Vue.component("first-Comp", {
+                template : "#firstTemp",
+                data() {
+                    return {
+                        hide : false
+                    }
+                },
+                methods: {
+
+                },
+                created : function(){
+                    let self = this;
+                    eventBus.$on("handle",function(){
+                        self.hide = !self.hide;
+                        console.log(self.hide);
+                    })
+                }
+            }
+        );
+        let routes = [{
+                path : "/",
+                components : {
+                    firstPart : firstComp,
+                }
+            }
+        ];
+        const router = new VueRouter({
+            routes
+        })
+        let eventBus = new Vue();
+        new Vue({
+            data : {
+            },
+            methods : {
+                eventhandler : function(){
+                    eventBus.$emit("handle");
+                }
+            },
+            router,
+        }).$mount("#test");
+    </script>
+</body>
+
+</html>

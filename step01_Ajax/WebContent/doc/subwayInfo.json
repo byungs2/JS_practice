@@ -1,0 +1,18 @@
+{
+"DATA" : [
+{"line_num":"우이신설선","ride_pasgr_num":2661,"alight_pasgr_num":2498,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"4.19민주묘지"},
+{"line_num":"경원선","ride_pasgr_num":6415,"alight_pasgr_num":6082,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가능"},
+{"line_num":"8호선","ride_pasgr_num":8056,"alight_pasgr_num":9185,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가락시장"},
+{"line_num":"3호선","ride_pasgr_num":9723,"alight_pasgr_num":9491,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가락시장"},
+{"line_num":"7호선","ride_pasgr_num":44574,"alight_pasgr_num":45217,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가산디지털단지"},
+{"line_num":"경부선","ride_pasgr_num":17423,"alight_pasgr_num":19838,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가산디지털단지"},
+{"line_num":"9호선","ride_pasgr_num":22493,"alight_pasgr_num":21156,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가양"},
+{"line_num":"우이신설선","ride_pasgr_num":3889,"alight_pasgr_num":3632,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가오리"},
+{"line_num":"경의선","ride_pasgr_num":5769,"alight_pasgr_num":5070,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가좌"},
+{"line_num":"분당선","ride_pasgr_num":5451,"alight_pasgr_num":6032,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가천대"},
+{"line_num":"경춘선","ride_pasgr_num":1709,"alight_pasgr_num":1873,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"가평"},
+{"line_num":"경인선","ride_pasgr_num":5881,"alight_pasgr_num":5544,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"간석"},
+{"line_num":"경춘선","ride_pasgr_num":3003,"alight_pasgr_num":2546,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"갈매"},
+{"line_num":"2호선","ride_pasgr_num":98692,"alight_pasgr_num":104043,"work_dt":"20200810","use_dt":"20200807","sub_sta_nm":"강남"}
+]
+}

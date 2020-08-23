@@ -1,0 +1,19 @@
+Date column type
+1. jdbc api
+	- setString, getString 사용 가능
+
+2. insert sql문 활용시 value값으로 사용가능한 표기들
+SQL> insert into test day values('2020/05/01');
+SQL> insert into test day values('2020-5-1');
+SQL> insert into test day values('2020 05 01');
+SQL> insert into test day values('2020 5 1');
+	...
+3. select 형식
+	- SQL> select * from test;
+	DAY
+	-------- 
+	20/05/01
+	20/05/01
+	20/05/01
+	20/05/01
+형식으로 출력

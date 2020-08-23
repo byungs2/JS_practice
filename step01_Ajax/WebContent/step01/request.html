@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>request.html</title>
+</head>
+<body>
+		<h2>Let AJAX change this text</h2>
+		<button type="button" onclick="loadDoc()">Change Content</button>
+
+		<div id="demo"></div>
+	
+	<script type="text/javascript">
+		function loadDoc() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("demo").innerHTML = this.responseText;
+				}
+			};
+/* 			xhttp.open("GET", "res.jsp?name=병헌", true);
+			xhttp.send(); */
+			xhttp.open("POST", "res.jsp", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("name=병헌");
+		}
+	</script>
+</body>
+</html>
+
+<!-- 
+	비동기 요청
+		1. res.jsp에게 비동기 요청
+			XMLHttpRequest라는 js 객체 필요
+		2. res.jsp가 응답하는 데이터를 화면에 출력
+			XMLHttpRequest라는 객체가 jsp 응답을 받는다
+	
+	요청		
+	 링크, submit, button onclick, location.href = 이동서버 프로그램
+ -->

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <h3>step01 : text directive</h3>
+    <!--id 선언 tag는 수정 가능, input tag에 입력되는 데이터 값으로 대체하기-->
+    <ol id = "app1">
+        <input type = "text" v-model ="message"><br>
+        <li>{{message}}</li>
+        <li v-text = "message"></li> <!--innertext-->
+        <li v-html = "message"></li> <!--innerHtml-->
+        <li v-once>{{message}}</li>
+    </ol>
+    <script>
+        let f1 = new Vue({
+            el : "#app1",
+            data : {
+                message : "vue의 model(data)"
+            }
+        });
+    </script>
+
+    <br><hr><br>
+    <!--v-bine:href == :href -->
+    <h3>step02 : v-bind</h3>
+    <ol id = "app2">
+        <li style="color : blue">스타일 바인딩</li>
+        <li v-bind:style="modelColor">스타일 바인딩</li>
+        <li><a href = "http://www.google.com" target = "_blacnk" title="구글로 이동">구글</a></li>
+        <li><a v-bind:href = "link.to" :title = "link.title">구글</a></li>
+    </ol>
+    <script>
+        let modelstyle = {
+            modelColor : "color : red",
+            link : {
+                to : "http://www.google.com",
+                title : "구글로 이동"
+            }
+        }
+        let f2 = new Vue({
+            el : "#app2",
+            data : modelstyle,
+        });
+    </script>
+    <br><hr><br>
+    <!--?버튼 클릭할 때마다 2.출력 확인 문구가 점멸-->
+    <h3>step03 : v-if , v-else-if, v-else</h3>
+    <div id = "app3">
+        <p>1.출력 확인</p>
+        <p v-if = "result">2.출력 확인</p>
+        <button type ="button" id = "btn" v-on:click="booleanChange">버튼</button>
+    </div>
+    <script>
+        let f3 = new Vue({
+            el : "#app3",
+            data : {
+                result : false
+            },
+            methods: {
+                booleanChange : function(){
+                    this.result = !this.result;
+                    return this.result;
+                }
+            }
+        });
+    </script>
+
+    <br><hr><br>
+    <h3>step04 : v-for</h3>
+    <div id = "app4">
+        <ol>
+            <li v-for="v in datas">
+                {{v.data}}
+            </li>
+        </ol>
+    </div>
+    <script>
+        let f4 = new Vue({
+            el : "#app4",
+            data : {
+                datas : [
+                    {data : 'data1'},
+                    {data : 'data2'},
+                    {data : 'data3'}
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

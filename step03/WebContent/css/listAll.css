@@ -1,0 +1,57 @@
+@charset "EUC-KR";
+body{
+  background: #343d46;
+}
+form, h1, h5  {
+	display: inline;
+}
+.mybutton1 {
+	text-align:50%;
+	background:linear-gradient(to bottom, #ffffff 5%, #ffffff 100%);
+	background-color:#ffffff;
+	border-radius:15px;
+	display:inline-block;
+	cursor:pointer;
+	color:#343d46;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:10px 16px;
+	text-decoration:none;
+}
+.mybutton1:hover {
+	background:linear-gradient(to bottom, #ffffff 5%, #ffffff 100%);
+	background-color:#ffffff;
+}
+.mybutton1:active {
+	position:relative;
+	top:1px;
+}
+p {
+   text-align: center;
+}
+.mybutton2 {
+	background-color:#ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#343d46;
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	padding:3px 3px;
+	text-decoration:none;
+	border: none;
+}
+.mybutton2:hover {
+	background:linear-gradient(to bottom, #ffffff 5%, #ffffff 100%);
+	background-color:#ffffff;
+}
+.mybutton2:active {
+	position:relative;
+	top:1px;
+}
+.inputBox {
+	 border-radius:5px;
+	 border: none;
+}
+        

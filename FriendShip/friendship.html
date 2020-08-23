@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="mystyle.css">
+    <title>Document</title>
+
+</head>
+<body>
+<div>
+	<div class="input">
+		<label for="name" id="label_name_area" class="lbl">이름</label>
+		<input type="text" id="name" name="name" placeholder="이름">
+	</div>
+	<div class="input">
+		<label for="age" id="label_age_area" class="lbl">나이</label>
+		<input type="text" id="age" name="age" placeholder="나이">
+	</div>
+	<div class="input">
+		<label for="drink" id="label_drink_area" class="lbl">마실 잔 수</label>
+		<input type="text" id="drink" name="drink" placeholder="마실 잔 수" >
+	</div>
+<br>
+<input type="submit"  value="참가" class="btn_add" id="log.add" onclick="add_drinkers()">
+<input type="start"  value="게임 시작" class="btn_start" id="log.start" onclick = "f1()">
+
+ </div>
+    남은양: <p id = "rest"></p><br>
+    양심 없는 사람들 : <p id = "avg"></p><br>
+    살짝 바보같은 사람들 : <p id = "above_avg"></p><br>
+    벌칙 여부 : <p id = "penalty"></p><br>
+    
+    <script>
+	  		drinkers=[];
+			
+			function add_drinkers(){
+				let name1=document.getElementById("name").value
+				let age1=parseInt(document.getElementById("age").value)
+				let drink1=parseInt(document.getElementById("drink").value)
+
+				drinker={name : name1, age: age1, drink : drink1};
+
+				drinkers.push(drinker)
+				document.getElementById("name").value=""
+				document.getElementById("age").value=""
+				document.getElementById("drink").value=""
+
+				console.log(drinkers)
+			}
+	function f1(){
+        let totaldrink = [10];
+        console.log(drinkers);
+        let ages = drinkers.map(v => v.age + 2);
+        for(i in ages){
+            drinkers[i].fage = ages[i];
+        }
+        let new_drinkers = drinkers.filter(x => x.fage > 18);
+        document.write(JSON.stringify(drinkers.filter(x => x.amount < 2)));
+        document.write(JSON.stringify(drinkers.filter(x => x.amount >= 2)));
+        document.write(drinkers.reduce(myFunc, totaldrink));
+        function myFunc(total, num) {
+            return total - num.amount;
+        }
+        document.write(function(){if (drinkers.reduce(myFunc, totaldrink) > 0){
+            return "Yes"
+        }else{
+            return "No"
+        }
+        }());
+}
+    </script>
+</body>
+</html>

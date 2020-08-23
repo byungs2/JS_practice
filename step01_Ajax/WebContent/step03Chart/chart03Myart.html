@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>chart03Myart.html</title>
+    <script type="text/javascript" src="../script/loader.js"></script> 
+    <script type="text/javascript">
+      function chartPrint(){
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(jsonData);
+      }
+	  
+      function drawChart(jsondb) {
+        var data = google.visualization.arrayToDataTable(jsondb);
+        var options = {
+          title: '나의 하루 일과'
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      } 
+      function jsonData() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					let list = [];
+					let data = this.responseText;
+					data = JSON.parse(data);
+	/* 				data.DATA.forEach(x => list.push(x));
+					drawChart(list); */
+					drawChart(data.DATA);
+				}
+			};
+			xhttp.open("POST", "dataRes.jsp", true);
+			xhttp.send();
+		}
+    </script>
+</head>
+<body>
+	<button type = "button" onclick = "chartPrint()">그래프 그리기</button>
+	<!-- 미션 : 버튼 클릭하면 비동기로 jsp파일에 요청하여 응답받은 데이터로 pie chart 그리기 -->
+	
+	<div id="piechart" style="width: 900px; height: 500px;"></div>
+</body>
+</html>

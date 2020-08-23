@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>request.html</title>
+</head>
+<body>
+		<h2>Let AJAX change this text</h2>
+		<button type="button" onclick="loadDoc()">1. csv 개인 정보 보기</button>
+		<button type="button" onclick="htmlReq()">2. html 개인 정보 보기</button>
+		<button type="button" onclick="jsonTest()">2. JSON 개인 정보 보기</button>
+		<button type="button" onclick="subwayTest()">Test</button>
+		<br>
+		이름 : <input type = "text" id = "name"><br>
+		나이 : <input type = "text" id = "age"><br>
+
+	<script type="text/javascript">
+		function loadDoc() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					let data = this.responseText;
+					console.log(this.responseText.length);
+					document.getElementById("name").value = data.split(",")[0];
+					document.getElementById("age").value = data.split(",")[1];
+				}
+			};
+/* 			xhttp.open("GET", "res.jsp?name=병헌", true);
+			xhttp.send(); */
+			xhttp.open("POST", "res.jsp", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send();
+		}
+		
+		function htmlReq() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					let data = this.responseText;
+					document.getElementById("htmlView").innerHTML = data;
+				}
+			};
+			xhttp.open("POST", "res2.jsp", true);
+			xhttp.send();
+		}
+		
+		function jsonTest() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					let data = this.responseText;
+					data = JSON.parse(data);
+					document.getElementById("json_name").value = data.name;
+					document.getElementById("json_age").value = data.age;
+				}
+			};
+			xhttp.open("POST", "res3.jsp", true);
+			xhttp.send();
+		}
+		
+		function subwayTest() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					let list= "";
+					let data = this.responseText;
+					data = JSON.parse(data);
+                  /*for(i in data.DATA){
+						 list = list+data.DATA[i].line_num+"\n";
+					} */
+					data.DATA.forEach(x => list = list+x.line_num+" "+x.sub_sta_nm+"\n");
+					document.getElementById("subwayView").innerText = list;
+				}
+			};
+			xhttp.open("POST", "../doc/subwayInfo.json", true);
+			xhttp.send();
+		}
+	</script>
+	<br><hr><br>
+	<div id = "htmlView"></div>
+	<br><hr><br>
+	이름 : <input type = "text" id = "json_name"><br>
+	나이 : <input type = "text" id = "json_age"><br>
+	<br><hr><br>
+	<div id = "subwayView"></div>
+</body>
+</html>
+
+<!-- 
+	비동기 요청
+		1. res.jsp에게 비동기 요청
+			XMLHttpRequest라는 js 객체 필요
+		2. res.jsp가 응답하는 데이터를 화면에 출력
+			XMLHttpRequest라는 객체가 jsp 응답을 받는다
+	
+	요청		
+	 링크, submit, button onclick, location.href = 이동서버 프로그램
+ -->

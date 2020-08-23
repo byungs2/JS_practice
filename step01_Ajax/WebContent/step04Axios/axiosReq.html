@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		//const axios = require('axios');
+		//step01 - 단순 요청과 응답 처리하는 비동기 코드
+		/* 		axios.get('axiosRes.jsp')
+		 .then(function (response) {
+		 console.log(response);
+		 })
+		 .catch(function (error) {
+		 console.log(error);
+		 })
+		 .then(function () {
+		 }); */
+
+		//step 02 화살표 사용
+		/* 		axios.get('axiosRes.jsp?name=한글')
+		 .then(response => {
+		 document.getElementById("dataView").innerText = response.data;
+		 //console.log(response);
+		 })
+		 .catch(error => {
+		 console.log(error);
+		 })
+		 .then(function () {
+		 }); */
+
+		//step03 - params 사용
+		//왜 안되지?
+	axios.get('axiosRes.jsp', {
+		 params: {
+		 name : "한글",
+		 age : 10
+		 }
+		 })
+		 .then(function (response) {
+		 document.getElementById("dataView").innerText = response.data;
+		 console.log(response);
+		 })
+		 .catch(function (error) {
+		 console.log(error);
+		 });
+
+		//step04 - API 활용 - 요청은 완료되었으나 데이터 값 전송 x
+		//메뉴얼에 node.js 참조 
+/* 		axios({
+			method : 'post',
+			url : 'axiosRes.jsp',
+			data : {
+				name : 'Fred',
+				age : 18
+			}
+		}).then(res => {console.log(res)}); */
+	</script>
+
+	<div id="dataView"></div>
+</body>
+</html>
